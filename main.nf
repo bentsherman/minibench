@@ -18,8 +18,7 @@ process minibench {
         # specify node type
         echo "#TRACE node_type=${c.node_type}"
 
-        # build and run minibench
-        make -C ${workflow.launchDir}
-        ${workflow.launchDir}/minibench trace
+        # run minibench
+        minibench trace
         """
 }
