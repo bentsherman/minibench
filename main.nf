@@ -7,6 +7,7 @@
  * each node type in a compute environment.
  */
 process minibench {
+    tag "${c.node_type}"
     publishDir "${params.output_dir}"
 
     input:

@@ -25,7 +25,7 @@ docker-push: docker-build
 	docker push bentsherman/minibench
 
 docker-test: docker-build
-	docker run --rm bentsherman/minibench -- minibench trace
+	docker run --rm bentsherman/minibench minibench trace
 
 docker-clean:
 	docker image rm -f bentsherman/minibench
