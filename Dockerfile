@@ -7,4 +7,4 @@ WORKDIR /opt/minibench
 COPY . .
 
 # build minibench
-RUN make
+RUN make install PREFIX="/usr/local/bin"

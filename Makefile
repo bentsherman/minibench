@@ -1,19 +1,31 @@
 
-all: bin/minibench
+PREFIX="bin"
 
-bin:
-	mkdir bin
+all: minibench
 
-bin/%: %.cu | bin
+${PREFIX}:
+	mkdir ${PREFIX}
+
+%: %.cu
 	nvcc $^ -o $@
 
-test: bin/minibench
-	bin/minibench trace
+test: minibench
+	minibench trace
 
-docker:
-	docker build -t bentsherman/minibench .
-	docker push bentsherman/minibench
+install: minibench | ${PREFIX}
+	mv $< ${PREFIX}
 
 clean:
-	rm -f bin/minibench
+	rm -f minibench ${PREFIX}/minibench
+
+docker-build:
+	docker build -t bentsherman/minibench .
+
+docker-push: docker-build
+	docker push bentsherman/minibench
+
+docker-test: docker-build
+	docker run --rm bentsherman/minibench -- minibench trace
+
+docker-clean:
 	docker image rm -f bentsherman/minibench
