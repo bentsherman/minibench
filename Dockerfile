@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-devel
+FROM nvidia/cuda:11.1-devel
 MAINTAINER Ben Shealy <btsheal@clemson.edu>
 
 # install minibench from build context

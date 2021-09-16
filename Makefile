@@ -6,8 +6,15 @@ all: minibench
 ${PREFIX}:
 	mkdir ${PREFIX}
 
-%: %.cu
-	nvcc $^ -o $@
+%: %.cpp
+	nvcc -x cu -o $@ \
+		-gencode=arch=compute_52,code=sm_52 \
+		-gencode=arch=compute_60,code=sm_60 \
+		-gencode=arch=compute_61,code=sm_61 \
+		-gencode=arch=compute_70,code=sm_70 \
+		-gencode=arch=compute_75,code=sm_75 \
+		-gencode=arch=compute_86,code=sm_86 \
+		$^
 
 test: minibench
 	minibench trace
@@ -19,6 +26,7 @@ clean:
 	rm -f minibench ${PREFIX}/minibench
 
 docker-build:
+	rm -rf .nextflow* trace*
 	docker build -t bentsherman/minibench .
 
 docker-push: docker-build
