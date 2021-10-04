@@ -1,5 +1,16 @@
 #!/usr/bin/env nextflow
 
+nextflow.enable.dsl=2
+
+
+
+workflow {
+    conditions = Channel.fromList( params.conditions )
+    trials = Channel.fromList( 0 .. params.trials-1 )
+
+    minibench(conditions, trials)
+}
+
 
 
 /**
@@ -11,8 +22,8 @@ process minibench {
     publishDir "${params.output_dir}"
 
     input:
-        each(c) from Channel.fromList( params.conditions )
-        each(trial) from Channel.fromList( 0 .. params.trials-1 )
+        each c
+        each trial
 
     script:
         """
