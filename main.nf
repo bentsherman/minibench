@@ -18,7 +18,7 @@ workflow {
  * each node type in a compute environment.
  */
 process minibench {
-    tag "${c.node_type}"
+    tag "${c.node_type}/${trial}"
     publishDir "${params.output_dir}"
 
     input:
