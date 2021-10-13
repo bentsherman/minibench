@@ -4,11 +4,28 @@ A Nextflow pipeline for lightweight benchmarking. Provides a simple way to obtai
 
 ## Usage
 
-Run minibench on whatever platform to collect benchmarking metrics for every node type on that platform. The only thing you need to do beforehand is to create a profile in `nextflow.config` that defines the node types on your platform. The config file currently has a few examples for a local machine, the Palmetto cluster at Clemson University, and Nautilus, a globally-distributed Kubernetes cluster.
+Run minibench on whatever platform to collect benchmarking metrics for every node type on that platform. The only thing you need to do beforehand is to create a profile in `nextflow.config` that defines the node types on your platform. The config file currently has a few examples for a local machine, the Palmetto cluster at Clemson University, the Nautilus cluster, and Google Cloud.
 
 To run minibench on a Kubernetes cluster:
 ```bash
 nextflow kuberun bentsherman/minibench -v <pvc-name>
+```
+
+To run minibench on Google Cloud:
+```bash
+# define environment variables
+export GOOGLE_APPLICATION_CREDENTIALS="<credentials-file>"
+export NXF_MODE="google"
+
+# run pipeline
+nextflow run bentsherman/minibench \
+    -profile google \
+    --google_bucket <bucket>/work \
+    --google_zone <zone>
+
+# transfer work directory from cloud storage
+gsutil -m cp -r gs://nextflow-data/work .
+gsutil -m rm -r gs://nextflow-data/work
 ```
 
 You can then use tesseract to collect the input features (i.e. `node_type`) and benchmarking metrics into a dataframe. Refer to the tesseract repo for more information.
