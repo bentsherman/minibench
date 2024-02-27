@@ -8,5 +8,3 @@ for NODE in ${NODES}; do
     echo `kubectl get node ${NODE} -o json | jq '.spec.taints'`
     echo
 done
-
-
